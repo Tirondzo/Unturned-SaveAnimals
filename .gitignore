@@ -1,2 +1,6 @@
-packages/
-.DS_Store
+packages
+*/bin
+*/obj
+*.suo
+*.userprefs
+*.DS_Store

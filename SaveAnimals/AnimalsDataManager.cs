@@ -84,11 +84,9 @@ namespace SaveAnimals
 
                     loadedAnimals += animalsCount;
                 }
-
                 river.closeRiver();
                 Logger.Log(string.Format("Loaded {0} packs with {1} animals in total", packsCount, loadedAnimals));
             }
-		}
-
+	}
     }
 }

@@ -15,11 +15,10 @@ namespace SaveAnimals
         }
 
 
-        Command commandSave;
+        internal Command commandSave;
         protected override void execute(CSteamID executorID, string parameter)
         {
             AnimalsDataManager.save();
-            Rocket.Core.Logging.Logger.Log("Animals saved");
             commandSave.check(executorID, commandSave.command, parameter);
         }
     }

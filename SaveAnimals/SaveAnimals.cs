@@ -45,7 +45,6 @@ namespace SaveAnimals
                     try
                     {
                         saveWatchdogInstance = rocket.GetField("Instance", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static).GetValue(null);
-                        if (saveWatchdogInstance != null) Logger.Log("HAPPY");
                         nextSaveTimeField = rocket.GetField("nextSaveTime", BindingFlags.NonPublic | BindingFlags.Instance);
 
                         restartTimer();
@@ -64,6 +63,13 @@ namespace SaveAnimals
         {
             Level.onLevelLoaded -= onLevelLoaded;
             Provider.onServerShutdown -= onServerShutdown;
+
+            if (this.Configuration.Instance.InitiateOnSaveCommand)
+            {
+				int index = Commander.commands.FindIndex((a) => a.command.ToLower().Equals("save"));
+				if (index > -1)
+                    Commander.commands[index] = ((CommandSaveWrapper)Commander.commands[index]).commandSave;
+            }
             base.Unload();
         }
 

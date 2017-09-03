@@ -75,7 +75,11 @@ namespace SaveAnimals
 
         private void onLevelLoaded(int level)
         {
-            AnimalsDataManager.load();
+            if (!AnimalsDataManager.load())
+            {
+                Logger.LogWarning("Animals couldn't be loaded.");
+                UnloadPlugin();
+            }
         }
 
         private void onServerShutdown()

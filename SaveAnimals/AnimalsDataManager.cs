@@ -18,11 +18,13 @@ namespace SaveAnimals
             River river = LevelSavedata.openRiver("/Animals.dat", false);
             river.writeByte(AnimalsDataManager.SAVEDATA_VERSION);
 
-            river.writeUInt16((ushort)AnimalManager.packs.Count);
+            List<PackInfo> packsToSave = AnimalManager.packs.Where( pack => pack.animals.Any( a => a != null && !a.isDead )).ToList();
+            river.writeUInt16((ushort)packsToSave.Count);
 
-            foreach (PackInfo pack in AnimalManager.packs)
+            foreach (PackInfo pack in packsToSave)
             {
                 List<Animal> aliveAnimals = pack.animals.Where((a) => a != null && !a.isDead).ToList();
+                if (aliveAnimals.Count == 0) continue;
                 if (pack.animals.Any(a => a == null)) aliveAnimals.Insert(0, null);
 
                 river.writeUInt16((ushort)aliveAnimals.Count);
@@ -37,7 +39,7 @@ namespace SaveAnimals
                 }
             }
             river.closeRiver();
-            Logger.Log(string.Format("Saved {0} packs with {1} animals in total", AnimalManager.packs.Count, AnimalManager.animals.Count));
+            Logger.Log(string.Format("Saved {0} packs with {1} animals in total", packsToSave.Count, AnimalManager.animals.Count));
         }
 
         public static bool load()

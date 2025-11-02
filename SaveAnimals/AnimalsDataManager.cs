@@ -84,8 +84,13 @@ namespace SaveAnimals
                             {
                                 AnimalManager aManager = ((AnimalManager)(typeof(AnimalManager)).GetField("manager", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Instance).GetValue(null));
                                 Animal animal = (Animal)typeof(AnimalManager).GetMethod("addAnimal", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(aManager, new object[] { id, position, angle, false });
-                                animal.pack = selectedPack;
-                                selectedPack.animals.Add(animal);
+                                if (animal != null)
+                                {
+                                    animal.pack = selectedPack;
+                                    selectedPack.animals.Add(animal);
+                                } else {
+                                    Logger.LogWarning(string.Format("Animal with id {0} can't be loaded", id));
+                                }
                             }
                             catch (Exception ex)
                             {
